@@ -30,7 +30,7 @@ export EDITOR=nano
 
 ###
 source ./func/functions.sh
-source ./var/variables.sh
+source ./func/variables.sh
 source ./primary/system_check.sh
 source ./primary/questions.sh
 source ./program/program.sh

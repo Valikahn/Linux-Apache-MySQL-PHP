@@ -275,7 +275,7 @@ systemctl enable vsftpd
 systemctl start vsftpd
 
 clear
-source ./var/vsftpd.sh
+source ./func/vsftpd.sh
 
 systemctl restart vsftpd
 
