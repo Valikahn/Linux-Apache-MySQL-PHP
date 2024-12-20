@@ -380,7 +380,7 @@ cp -r web/* /var/www/html/ > /dev/null 2>&1
 rm -rf /var/www/html/index.html > /dev/null 2>&1
 touch /var/www/html/index.html > /dev/null 2>&1
 
-source ./global/conf/html.sh
+source ./conf/html.sh
 
 CONFIRM_YES_NO
 }
@@ -395,9 +395,8 @@ sleep 5
 if [ "$VHOST_ANSWER" == "1" ]; then
     clear
     echo "WORKING ON: ${RED}[  ${FUNCNAME[0]}  ]${NORMAL}"
-    COUNTDOWN 5
-    source ./func/vhosts.sh
-    break
+    sleep 5
+    source ./func/vhost.sh
 fi
 
 CONFIRM_YES_NO

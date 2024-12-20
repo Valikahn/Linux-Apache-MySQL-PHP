@@ -16,6 +16,13 @@ tr -dc A-Za-z0-9 < /dev/urandom | head -c ${genln} | xargs
 ## tr -dc 'A-Za-z0-9!@#$%^&*()_+-=[]{}|;:,.<>?' < /dev/urandom | head -c ${genln} | xargs
 }
 
+###--------------------  IS PORT IN USE  --------------------###
+##
+IS_PORT_IN_USE() {
+  lsof -i -P -n | grep LISTEN | grep ":$1 " > /dev/null
+  return $?
+}
+
 ###--------------------  CREATE RANDOM PORT  --------------------###
 ##
 CREATE_RANDOM_PORT() {
