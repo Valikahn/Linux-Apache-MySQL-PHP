@@ -37,8 +37,8 @@ done
 clear
 while true; do
     read -p "Enter the domain name for SSL (e.g., example.com): " DOMAINAME
-    DOMAINAME=$DOMAIN
-    FQDN=$DOMAIN
+    DOMAIN=$DOMAINAME
+    FQDN=$DOMAINAME
 
     echo "DOMAIN entered: $DOMAIN"
     echo "FQDN entered: $FQDN"
