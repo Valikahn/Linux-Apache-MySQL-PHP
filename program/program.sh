@@ -38,8 +38,6 @@ if command -v pro &> /dev/null; then
 else
     echo "Ubuntu Pro is not installed. Continuing."
 fi
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  DELETE PURGE CLOUD-INIT  --------------------###
@@ -74,8 +72,6 @@ if [ -e "/var/log/cloud-init-output.log" ]; then
     rm -rf /var/log/cloud-init-output.log
     echo "Deleted cloud-init files (/var/log/cloud-init-output.log)"
 fi
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  UPDATE DEB HOST  --------------------###
@@ -98,8 +94,6 @@ apt-get -o Dpkg::Options::="--force-confdef" \
 apt --purge autoremove -y
 apt autoclean -y
 apt update && apt upgrade -y
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL APACHE AND CONFIGURE DIRECTORY PERMISSIONS  --------------------###
@@ -116,8 +110,6 @@ usermod -aG www-data $USERNAME
 chmod -R 775 /var/www/html
 chmod -R g+w /var/www/html
 chmod g+s /var/www/html
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL IONCUBE LOADER  --------------------###
@@ -167,15 +159,13 @@ if [ $? -eq 0 ]; then
 else
     echo "IonCube Loader installation failed."
 fi
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL MYSQL SERVER  --------------------###
 ##
 INSTALL_MYSQL() {
 clear
-echo "IINSTALL MYSQL SERVER..."
+echo "INSTALL MYSQL SERVER..."
 sleep 5
 
 apt update
@@ -200,8 +190,6 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 
 cp /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf.bak
 sed -i "s/^bind-address\s*=\s*127.0.0.1/bind-address            = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL PHPMYADMIN  --------------------###
@@ -221,8 +209,6 @@ apt-get install -y phpmyadmin
 ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 systemctl restart apache2
 systemctl restart mysql
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL DEPENDENCIES  --------------------###
@@ -241,8 +227,6 @@ apt install -y rar unrar perl python3 python3-pip
 
 systemctl restart apache2
 systemctl restart mysql
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL WEBMIN  --------------------###
@@ -259,8 +243,6 @@ apt-get install -y --install-recommends ./webmin-current.deb
 
 # This command will reset the root password and prevent access using the shell login.
 #sudo /usr/share/webmin/changepass.pl /etc/webmin root "$ROOT_PASSWORD"
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL VSFTPD TO ENABLE FTP ACCESS  --------------------###
@@ -278,8 +260,6 @@ clear
 source ./func/vsftpd.sh
 
 systemctl restart vsftpd
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  INSTALL SSL VIA LETS ENCRYPT  --------------------###
@@ -339,8 +319,6 @@ systemctl enable apache2
 systemctl start apache2
 systemctl restart ssh
 ufw reload
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  SSH PORT SECURITY | GENERATE PORT NUMBER BETWEEN 1024 and 65535 AND CHANGE  --------------------###
@@ -381,8 +359,6 @@ rm -rf /var/www/html/index.html > /dev/null 2>&1
 touch /var/www/html/index.html > /dev/null 2>&1
 
 source ./conf/html.sh
-
-CONFIRM_YES_NO
 }
 
 ###--------------------  VHOST QUESTION  --------------------###

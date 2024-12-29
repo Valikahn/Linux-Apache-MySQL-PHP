@@ -56,9 +56,4 @@ DEPLOY_VHOSTS
 ###--------------------  COMPLETE | DONE  --------------------###
 ##
 clear
-echo "DONE!"
-
-echo "phpMyAdmin Username: phpMyAdmin | Password: $PSWD"
-echo "Webmin Username: $USERNAME | Password: [SHELL PASSWORD]"
-echo "SSH IP: $IP_ADDRESS | SSH Port: $SSH_PORT"
-echo "FTP IP: $IP_ADDRESS | FTP Port: $FTP_PORT"
+echo "END!"

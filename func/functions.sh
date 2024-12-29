@@ -9,7 +9,7 @@
 ##
 PASSGEN() {
 local genln=$1
-[ -z "$genln" ] && genln=21
+[ -z "$genln" ] && genln=16
 ## Without Special Characters
 tr -dc A-Za-z0-9 < /dev/urandom | head -c ${genln} | xargs
 ## With Special Characters
@@ -26,7 +26,7 @@ IS_PORT_IN_USE() {
 ###--------------------  CREATE RANDOM PORT  --------------------###
 ##
 CREATE_RANDOM_PORT() {
-    $NEW_PORT=$nil
+    unset $NEW_PORT
     while true; 
     do
       NEW_PORT=$((RANDOM % 64512 + 1024))

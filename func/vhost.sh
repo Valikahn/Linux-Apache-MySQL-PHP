@@ -5,27 +5,28 @@
 ###################################################
 
 clear
+unset $DOMAIN
 
 ###--------------------  VHOST CREATION  --------------------###
 ##
-read -p "How many vHosts would you like to create? " QTY_VHOSTS
-for ((v=1; v<=QTY_VHOSTS; v++)); do
+read -p "How many vHosts would you like to create? " QTY_DOMAINS
+for ((v=1; v<=QTY_DOMAINS; v++)); do
     clear
-    read -p "Enter the name for vHost $v (e.g., hello_world.local): " VHOST_NAME
-    if ! mkdir -p /var/www/public_html/$VHOST_NAME/cms; then
-        echo "Failed to create directory for $VHOST_NAME"
+    read -p "Enter the name for vHost $v (e.g., hello_world.local): " DOMAIN
+    if ! mkdir -p /var/www/public_html/$DOMAIN/cms; then
+        echo "Failed to create directory for $DOMAIN"
         continue
     fi
     echo
 
-cat <<EOL >/etc/apache2/sites-available/$VHOST_NAME.conf
+cat <<EOL >/etc/apache2/sites-available/$DOMAIN.conf
 <VirtualHost *:80>
-    ServerAdmin webmaster@$VHOST_NAME
-    ServerName $VHOST_NAME
-    ServerAlias www.$VHOST_NAME
-    DocumentRoot /var/www/public_html/$VHOST_NAME
+    ServerAdmin webmaster@$DOMAIN
+    ServerName $DOMAIN
+    ServerAlias www.$DOMAIN
+    DocumentRoot /var/www/public_html/$DOMAIN
 
-    <Directory /var/www/public_html/$VHOST_NAME>
+    <Directory /var/www/public_html/$DOMAIN>
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
@@ -34,41 +35,22 @@ cat <<EOL >/etc/apache2/sites-available/$VHOST_NAME.conf
     ErrorLog \${APACHE_LOG_DIR}/${VHOST_NAME}_error.log
     CustomLog \${APACHE_LOG_DIR}/${VHOST_NAME}_access.log combined
 </VirtualHost>
-
-<VirtualHost *:443>
-    ServerAdmin webmaster@$VHOST_NAME
-    ServerName $VHOST_NAME
-    ServerAlias www.$VHOST_NAME
-    DocumentRoot /var/www/public_html/$VHOST_NAME
-
-    SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
-    SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
-    SSLCertificateChainFile /etc/ssl/certs/dhparam.pem
-
-    <Directory /var/www/public_html/$VHOST_NAME>
-        Options -Indexes +FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    ErrorLog \${APACHE_LOG_DIR}/${VHOST_NAME}_ssl_error.log
-    CustomLog \${APACHE_LOG_DIR}/${VHOST_NAME}_ssl_access.log combined
-</VirtualHost>
 EOL
 
 a2enmod ssl
-a2ensite $VHOST_NAME.conf
+a2ensite $DOMAIN.conf
 
-cp -r web/* /var/www/public_html/$VHOST_NAME
+cp -r web/* /var/www/public_html/$DOMAIN
 
-if ! cp /var/www/html/conf/php.ini /var/www/public_html/$VHOST_NAME/cms/; then
-    echo "Failed to copy php.ini for $VHOST_NAME"
+if ! cp /var/www/html/conf/php.ini /var/www/public_html/$DOMAIN/cms/; then
+    echo "Failed to copy php.ini for $DOMAIN"
 fi
 
-if ! cp /var/www/html/conf/.htaccess /var/www/public_html/$VHOST_NAME/cms/; then
-    echo "Failed to copy .htaccess for $VHOST_NAME"
+if ! cp /var/www/html/conf/.htaccess /var/www/public_html/$DOMAIN/cms/; then
+    echo "Failed to copy .htaccess for $DOMAIN"
 fi
+
+INSTALL_LETS_ENCRYPT_SSL
 
 done
 
@@ -79,5 +61,6 @@ if systemctl reload apache2; then
     echo "Apache reloaded successfully."
 else
     echo "Failed to reload Apache."
-    COUNTDOWN 5
+    sleep 5
 fi
+

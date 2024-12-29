@@ -36,8 +36,12 @@ done
 ##
 clear
 while true; do
-    read -p "Enter the domain name for SSL (e.g., example.com): " DOMAIN
-    echo "You entered: $DOMAIN"
+    read -p "Enter the domain name for SSL (e.g., example.com): " DOMAINAME
+    DOMAINAME=$DOMAIN
+    FQDN=$DOMAIN
+
+    echo "DOMAIN entered: $DOMAIN"
+    echo "FQDN entered: $FQDN"
 
     while true; do
         read -p "Is this correct? (Y/N): " CONFIRM
